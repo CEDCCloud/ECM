@@ -2,29 +2,28 @@ import datetime
 import sys
 from subprocess import call
 
-scripts = [(1, "Scientific Linux 6", "scientific", "master_files/SL6-master"),
-           (2, "Ubuntu", "ubuntu", "master_files/Ubuntu-master"),
+scripts = [(1, "Fedora",  "fedora",  "master_files/Fedora-master"),
+           (2, "Ubuntu",  "ubuntu",  "master_files/Ubuntu-master"),
            (3, "uCernVM", "ucernvm", "master_files/uCernVM-master"),
-           (4, "CentOS", "centos", "master_files/CentOS7-master")]
+           (4, "CentOS",  "centos",  "master_files/CentOS7-master")]
            
-SL_images = [(1, "SL68-x86_64-20161107", "ami-6b1406fc"),
-          (2, "SL67-x86_64-20151017", "ami-09877a78"),
-          (3, "SL66-x86_64-20150521", "ami-d558813f"),
-          (4, "SL66-x86_64-20150309", "ami-55829d60"),
-          (5, "SL66-x86_64-20150131", "ami-dc9da54c"),
-          (6, "SL65-x86_64-20151029", "ami-d760f202"),
-          (7, "Other image. [WARNING] You have to know the EC2-id of image", "ami-")]
+Fedora_images = [
+           (1, "Fedora 23", "ami-00000027"),
+           (2, "Other image. [WARNING] You have to know the EC2-id of image", "ami-")]
           
-ubuntu_images = [(1, "ubuntu-16.04.1-LTS", "ami-000000c6"),
-          (2, "ubuntu-14.04.3-LTS", "ami-0000001b"),
-          (3, "Other image. [WARNING] You have to know the EC2-id of image", "ami-")]
+ubuntu_images = [
+           (1, "ubuntu-16.04.1-LTS", "ami-000000c6"),
+           (2, "ubuntu-14.04.3-LTS", "ami-0000001b"),
+           (3, "Other image. [WARNING] You have to know the EC2-id of image", "ami-")]
           
-cern_images = [(1, "uCernVM 3", "ami-0000005a"),
-          (2, "Other image. [WARNING] You have to know the EC2-id of image", "ami-")]
+cern_images = [
+           (1, "uCernVM 3", "ami-0000005a"),
+           (2, "Other image. [WARNING] You have to know the EC2-id of image", "ami-")]
 
-centos_images = [(1, "CentOS 6", "ami-00000010"),
-                 (2, "CentOS 7", "ami-00000013"),
-                 (3, "Other image. [WARNING] You have to know the EC2-id of image", "ami-")]
+centos_images = [
+           (1, "CentOS 7", "ami-00000013"),
+           (2, "CentOS 6", "ami-00000010"),
+           (3, "Other image. [WARNING] You have to know the EC2-id of image", "ami-")]
            
 if __name__ == "__main__":
 
@@ -69,11 +68,11 @@ if __name__ == "__main__":
 
             if n == 1:
                 print("\nSelect the image for your %s based master and your %s based WNs:" %(d, d)) 
-                for m, b, g in SL_images:
+                for m, b, g in Fedora_images:
                     print("%s: %s" % (m, b))
                 image = input("\nImage => ")
                 try:
-                    m, b, g = SL_images[int(image)-1]
+                    m, b, g = Fedora_images[int(image)-1]
                     if int(image) == 7:
                         print("\nInsert the EC2-id (something like ami-00000000)")
                         if int(major_version) < 3:
