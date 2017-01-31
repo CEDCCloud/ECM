@@ -73,7 +73,7 @@ if __name__ == "__main__":
                 image = input("\nImage => ")
                 try:
                     m, b, g = Fedora_images[int(image)-1]
-                    if int(image) == 7:
+                    if int(image) == 2:
                         print("\nInsert the EC2-id (something like ami-00000000)")
                         if int(major_version) < 3:
                             image_number = raw_input("ami-")
@@ -96,7 +96,7 @@ if __name__ == "__main__":
                 image = input("\nImage => ")
                 try:
                     m, b, g = ubuntu_images[int(image)-1]
-                    if int(image) == 2:
+                    if int(image) == 3:
                         print("\nInsert the EC2-id (something like ami-00000000)")
                         if int(major_version) < 3:
                             image_number = raw_input("ami-")
@@ -119,7 +119,7 @@ if __name__ == "__main__":
                 image = input("\nImage => ")
                 try:
                     m, b, g = cern_images[int(image)-1]
-                    if int(image) == 5:
+                    if int(image) == 2:
                         print("\nInsert the EC2-id (something like ami-00000000)")
                         if int(major_version) < 3:
                             image_number = raw_input("ami-")
