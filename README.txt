@@ -15,4 +15,4 @@ $ python ecm.py
 
 
 
-More details in http://www.pd.infn.it/cloud/Users_Guide/html-desktop/#ClusterConfiguration.
+More details in https://cloud.cedc.csia.unipd.it/User_Guide/index.html#ClusterConfiguration
