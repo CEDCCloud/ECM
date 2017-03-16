@@ -118,7 +118,7 @@ EOF
 #################
 cat << EOF >/tmp/Cluster 
 ###################
-# CentOS7 Cluster #
+# Fedora  Cluster #
 ###################
 SEC_DAEMON_AUTHENTICATION = required
 SEC_DAEMON_INTEGRITY = required
@@ -129,7 +129,7 @@ SEC_ENABLE_MATCH_PASSWORD_AUTHENTICATION = True
 
 ALLOW_DAEMON = condor_pool@*, submit-side@matchsession
 ## Short description: Change this to an appropriate name (30 chr. limit)
-COLLECTOR_NAME = CernVM cluster at \$(CONDOR_HOST)
+COLLECTOR_NAME = Fedora cluster at \$(CONDOR_HOST)
 ##  Sets how often the condor_negotiator starts a negotiation cycle.
 ##  It is defined in seconds and defaults to 60 (1 minute).
 NEGOTIATOR_INTERVAL = 20
@@ -177,12 +177,12 @@ EOF
 ##########
 echo 0 > /sys/fs/selinux/enforce
 #
-yum install -y wget
+dnf install -y wget
 #
 cd /etc/yum.repos.d
-wget http://10.64.34.11/repo/htcondor/repo.d/htcondor-stable-rhel7.repo
-yum clean all
-yum install -y condor-all-8.4.9
+wget http://90.147.77.142/repo/htcondor/repo.d/htcondor-stable-rhel7.repo
+dnf clean all
+dnf install -y condor-all-8.4.9
 CUID=$(id condor | awk '{print $1}'| cut -d'=' -f2|cut -d'(' -f1)
 CGID=$(id condor | awk '{print $2}'| cut -d'=' -f2|cut -d'(' -f1)
 cat << EOF >/etc/condor/condor_config.local
@@ -200,14 +200,14 @@ QUEUE_SUPER_USERS = root, condor
 HIGHPORT = 42000
 LOWPORT = 41000
 EOF
-cat /tmp/Cluster > /etc/condor/config.d/CentOS7
+cat /tmp/Cluster > /etc/condor/config.d/Fedora
 #
 /usr/sbin/condor_store_cred -p 12345 add -f /etc/condor/condor_credential
 #
 systemctl start condor
 systemctl enable condor
 #
-yum localinstall -y https://github.com/dberzano/elastiq/releases/download/v0.9.10/python-elastiq-0.9.10-1.py27.noarch.rpm
+dnf install -y https://github.com/dberzano/elastiq/releases/download/v0.9.10/python-elastiq-0.9.10-1.py27.noarch.rpm
 #
 cat /tmp/cacerts.txt >> /usr/lib/python2.7/site-packages/boto/cacerts/cacerts.txt
 #
@@ -224,7 +224,7 @@ check_vms_every_s = 45
 [ec2]
 flavour = $FLAVOR
 api_url = $EC2_URL
-user_data_b64 = IyEvYmluL2Jhc2gNCkhPU1RJUD0kKGhvc3RuYW1lIC1JIHwgYXdrICd7cHJpbnQgJDF9JykNCiMNCmVjaG8gMCA+IC9zeXMvZnMvc2VsaW51eC9lbmZvcmNlDQojDQp5dW0gaW5zdGFsbCAteSB3Z2V0DQojDQpjZCAvZXRjL3l1bS5yZXBvcy5kDQp3Z2V0IGh0dHA6Ly8xMC42NC4zNC4xMS9yZXBvL2h0Y29uZG9yL3JlcG8uZC9odGNvbmRvci1zdGFibGUtcmhlbDcucmVwbw0KeXVtIGluc3RhbGwgLXkgY29uZG9yLWFsbC04LjQuOQ0KQ1VJRD0kKGlkIGNvbmRvciB8IGF3ayAne3ByaW50ICQxfSd8IGN1dCAtZCc9JyAtZjJ8Y3V0IC1kJygnIC1mMSkNCkNHSUQ9JChpZCBjb25kb3IgfCBhd2sgJ3twcmludCAkMn0nfCBjdXQgLWQnPScgLWYyfGN1dCAtZCcoJyAtZjEpDQojDQpjYXQgPDwgRU9GID4vZXRjL2NvbmRvci9jb25kb3JfY29uZmlnLmxvY2FsDQoNCkRBRU1PTl9MSVNUID0gTUFTVEVSLCBTVEFSVEQNCkNPTkRPUl9IT1NUID0gJWlwdjQlDQpDT05ET1JfQURNSU4gPSByb290QCVpcHY0JQ0KDQojIFByZXNlcnZlIFVJRCBvZiBzdWJtaXR0aW5nIHVzZXINClVJRF9ET01BSU4gPSAqDQpUUlVTVF9VSURfRE9NQUlOID0gVHJ1ZQ0KU09GVF9VSURfRE9NQUlOID0gVHJ1ZQ0KDQpDT05ET1JfSURTID0gJENVSUQuJENHSUQNClFVRVVFX1NVUEVSX1VTRVJTID0gcm9vdCwgY29uZG9yDQpISUdIUE9SVCA9IDQyMDAwDQpMT1dQT1JUID0gNDEwMDANCk5FVFdPUktfSU5URVJGQUNFID0gJEhPU1RJUA0KTk9fRE5TID0gVHJ1ZQ0KREVGQVVMVF9ET01BSU5fTkFNRSA9IElORk4tUEQNCkVPRg0KDQpjYXQgPDxFT0Y+IC9ldGMvY29uZG9yL2NvbmZpZy5kL2NlbnRvczcNCiMjIyMjIyMjIyMjIyMjIyMjIyMNCiMgQ2VudG9zNyBDbHVzdGVyICMNCiMjIyMjIyMjIyMjIyMjIyMjIyMNClNFQ19EQUVNT05fQVVUSEVOVElDQVRJT04gPSByZXF1aXJlZA0KU0VDX0RBRU1PTl9JTlRFR1JJVFkgPSByZXF1aXJlZA0KU0VDX0RBRU1PTl9BVVRIRU5USUNBVElPTl9NRVRIT0RTID0gcGFzc3dvcmQNClNFQ19DTElFTlRfQVVUSEVOVElDQVRJT05fTUVUSE9EUyA9IHBhc3N3b3JkLGZzLGdzaSxrZXJiZXJvcw0KU0VDX1BBU1NXT1JEX0ZJTEUgPSAvZXRjL2NvbmRvci9jb25kb3JfY3JlZGVudGlhbA0KU0VDX0VOQUJMRV9NQVRDSF9QQVNTV09SRF9BVVRIRU5USUNBVElPTiA9IFRydWUNCg0KQUxMT1dfREFFTU9OID0gY29uZG9yX3Bvb2xAKiwgc3VibWl0LXNpZGVAbWF0Y2hzZXNzaW9uDQojIyBTaG9ydCBkZXNjcmlwdGlvbjogQ2hhbmdlIHRoaXMgdG8gYW4gYXBwcm9wcmlhdGUgbmFtZSAoMzAgY2hyLiBsaW1pdCkNCkNPTExFQ1RPUl9OQU1FID0gQ2VyblZNIGNsdXN0ZXIgYXQgXCQoQ09ORE9SX0hPU1QpDQojIyAgU2V0cyBob3cgb2Z0ZW4gdGhlIGNvbmRvcl9uZWdvdGlhdG9yIHN0YXJ0cyBhIG5lZ290aWF0aW9uIGN5Y2xlLg0KIyMgIEl0IGlzIGRlZmluZWQgaW4gc2Vjb25kcyBhbmQgZGVmYXVsdHMgdG8gNjAgKDEgbWludXRlKS4NCk5FR09USUFUT1JfSU5URVJWQUwgPSAyMA0KIyMgIFdoZW4gaXMgdGhpcyBtYWNoaW5lIHdpbGxpbmcgdG8gc3RhcnQgYSBqb2I/DQpTVEFSVCA9IFRSVUUNCiMjICBXaGVuIHRvIHN1c3BlbmQgYSBqb2I/DQpTVVNQRU5EID0gRkFMU0UNCiMjICBXaGVuIHRvIG5pY2VseSBzdG9wIGEgam9iPw0KIyMgIChhcyBvcHBvc2VkIHRvIGtpbGxpbmcgaXQgaW5zdGFudGFuZW91c2x5KQ0KUFJFRU1QVCA9IEZBTFNFDQojIyAgV2hlbiB0byBpbnN0YW50YW5lb3VzbHkga2lsbCBhIHByZWVtcHRpbmcgam9iDQojIyAgKGUuZy4gaWYgYSBqb2IgaXMgaW4gdGhlIHByZS1lbXB0aW5nIHN0YWdlIGZvciB0b28gbG9uZykNCktJTEwgPSBGQUxTRQ0KIyMgIERpc2FibGUgVUlEX0RPTUFJTiBjaGVjayB3aGVuIHN1Ym1pdCBhIGpvYg0KVFJVU1RfVUlEX0RPTUFJTiA9IFRSVUUNCg0KIyMgIFVzZSBUQ1AgaW5zdGVhZCBvZiBVRFAsIGFuZCBjYWNoZSBUQ1Agc29ja2V0cw0KIyMgIChtb3JlIHJlbGlhYmxlIG9uIHNvbWUgY2xvdWQgbmV0d29ya3MpDQpVUERBVEVfQ09MTEVDVE9SX1dJVEhfVENQID0gVHJ1ZQ0KQ09MTEVDVE9SX1NPQ0tFVF9DQUNIRV9TSVpFID0gMTAwMA0KDQojIyBBdm9pZCBjcmFzaGVzIG9mIHRoZSBjb2xsZWN0b3INCkNPTkRPUl9ERVZFTE9QRVJTX0NPTExFQ1RPUiA9IE5PTkUNCkVPRg0KL3Vzci9zYmluL2NvbmRvcl9zdG9yZV9jcmVkIC1wIDEyMzQ1IGFkZCAtZiAvZXRjL2NvbmRvci9jb25kb3JfY3JlZGVudGlhbA0Kc3lzdGVtY3RsIHN0YXJ0IGNvbmRvcg0Kc3lzdGVtY3RsIGVuYWJsZSBjb25kb3INCg== 
+user_data_b64 = IyEvYmluL2Jhc2gNCkhPU1RJUD0kKGhvc3RuYW1lIC1JIHwgYXdrICd7cHJpbnQgJDF9JykNCiMNCmVjaG8gMCA+IC9zeXMvZnMvc2VsaW51eC9lbmZvcmNlDQojDQp5dW0gaW5zdGFsbCAteSB3Z2V0DQojDQpjZCAvZXRjL3l1bS5yZXBvcy5kDQp3Z2V0IGh0dHA6Ly85MC4xNDcuNzcuMTQyL3JlcG8vaHRjb25kb3IvcmVwby5kL2h0Y29uZG9yLXN0YWJsZS1yaGVsNy5yZXBvDQp5dW0gaW5zdGFsbCAteSBjb25kb3ItYWxsLTguNC45DQpDVUlEPSQoaWQgY29uZG9yIHwgYXdrICd7cHJpbnQgJDF9J3wgY3V0IC1kJz0nIC1mMnxjdXQgLWQnKCcgLWYxKQ0KQ0dJRD0kKGlkIGNvbmRvciB8IGF3ayAne3ByaW50ICQyfSd8IGN1dCAtZCc9JyAtZjJ8Y3V0IC1kJygnIC1mMSkNCiMNCmNhdCA8PCBFT0YgPi9ldGMvY29uZG9yL2NvbmRvcl9jb25maWcubG9jYWwNCg0KREFFTU9OX0xJU1QgPSBNQVNURVIsIFNUQVJURA0KQ09ORE9SX0hPU1QgPSAlaXB2NCUNCkNPTkRPUl9BRE1JTiA9IHJvb3RAJWlwdjQlDQoNCiMgUHJlc2VydmUgVUlEIG9mIHN1Ym1pdHRpbmcgdXNlcg0KVUlEX0RPTUFJTiA9ICoNClRSVVNUX1VJRF9ET01BSU4gPSBUcnVlDQpTT0ZUX1VJRF9ET01BSU4gPSBUcnVlDQoNCkNPTkRPUl9JRFMgPSAkQ1VJRC4kQ0dJRA0KUVVFVUVfU1VQRVJfVVNFUlMgPSByb290LCBjb25kb3INCkhJR0hQT1JUID0gNDIwMDANCkxPV1BPUlQgPSA0MTAwMA0KTkVUV09SS19JTlRFUkZBQ0UgPSAkSE9TVElQDQpOT19ETlMgPSBUcnVlDQpERUZBVUxUX0RPTUFJTl9OQU1FID0gSU5GTi1QRA0KRU9GDQoNCmNhdCA8PEVPRj4gL2V0Yy9jb25kb3IvY29uZmlnLmQvZmVkb3JhDQojIyMjIyMjIyMjIyMjIyMjIyMjDQojIEZlZG9yYSAgQ2x1c3RlciAjDQojIyMjIyMjIyMjIyMjIyMjIyMjDQpTRUNfREFFTU9OX0FVVEhFTlRJQ0FUSU9OID0gcmVxdWlyZWQNClNFQ19EQUVNT05fSU5URUdSSVRZID0gcmVxdWlyZWQNClNFQ19EQUVNT05fQVVUSEVOVElDQVRJT05fTUVUSE9EUyA9IHBhc3N3b3JkDQpTRUNfQ0xJRU5UX0FVVEhFTlRJQ0FUSU9OX01FVEhPRFMgPSBwYXNzd29yZCxmcyxnc2ksa2VyYmVyb3MNClNFQ19QQVNTV09SRF9GSUxFID0gL2V0Yy9jb25kb3IvY29uZG9yX2NyZWRlbnRpYWwNClNFQ19FTkFCTEVfTUFUQ0hfUEFTU1dPUkRfQVVUSEVOVElDQVRJT04gPSBUcnVlDQoNCkFMTE9XX0RBRU1PTiA9IGNvbmRvcl9wb29sQCosIHN1Ym1pdC1zaWRlQG1hdGNoc2Vzc2lvbg0KIyMgU2hvcnQgZGVzY3JpcHRpb246IENoYW5nZSB0aGlzIHRvIGFuIGFwcHJvcHJpYXRlIG5hbWUgKDMwIGNoci4gbGltaXQpDQpDT0xMRUNUT1JfTkFNRSA9IEZlZG9yYSBjbHVzdGVyIGF0IFwkKENPTkRPUl9IT1NUKQ0KIyMgIFNldHMgaG93IG9mdGVuIHRoZSBjb25kb3JfbmVnb3RpYXRvciBzdGFydHMgYSBuZWdvdGlhdGlvbiBjeWNsZS4NCiMjICBJdCBpcyBkZWZpbmVkIGluIHNlY29uZHMgYW5kIGRlZmF1bHRzIHRvIDYwICgxIG1pbnV0ZSkuDQpORUdPVElBVE9SX0lOVEVSVkFMID0gMjANCiMjICBXaGVuIGlzIHRoaXMgbWFjaGluZSB3aWxsaW5nIHRvIHN0YXJ0IGEgam9iPw0KU1RBUlQgPSBUUlVFDQojIyAgV2hlbiB0byBzdXNwZW5kIGEgam9iPw0KU1VTUEVORCA9IEZBTFNFDQojIyAgV2hlbiB0byBuaWNlbHkgc3RvcCBhIGpvYj8NCiMjICAoYXMgb3Bwb3NlZCB0byBraWxsaW5nIGl0IGluc3RhbnRhbmVvdXNseSkNClBSRUVNUFQgPSBGQUxTRQ0KIyMgIFdoZW4gdG8gaW5zdGFudGFuZW91c2x5IGtpbGwgYSBwcmVlbXB0aW5nIGpvYg0KIyMgIChlLmcuIGlmIGEgam9iIGlzIGluIHRoZSBwcmUtZW1wdGluZyBzdGFnZSBmb3IgdG9vIGxvbmcpDQpLSUxMID0gRkFMU0UNCiMjICBEaXNhYmxlIFVJRF9ET01BSU4gY2hlY2sgd2hlbiBzdWJtaXQgYSBqb2INClRSVVNUX1VJRF9ET01BSU4gPSBUUlVFDQoNCiMjICBVc2UgVENQIGluc3RlYWQgb2YgVURQLCBhbmQgY2FjaGUgVENQIHNvY2tldHMNCiMjICAobW9yZSByZWxpYWJsZSBvbiBzb21lIGNsb3VkIG5ldHdvcmtzKQ0KVVBEQVRFX0NPTExFQ1RPUl9XSVRIX1RDUCA9IFRydWUNCkNPTExFQ1RPUl9TT0NLRVRfQ0FDSEVfU0laRSA9IDEwMDANCg0KIyMgQXZvaWQgY3Jhc2hlcyBvZiB0aGUgY29sbGVjdG9yDQpDT05ET1JfREVWRUxPUEVSU19DT0xMRUNUT1IgPSBOT05FDQpFT0YNCi91c3Ivc2Jpbi9jb25kb3Jfc3RvcmVfY3JlZCAtcCAxMjM0NSBhZGQgLWYgL2V0Yy9jb25kb3IvY29uZG9yX2NyZWRlbnRpYWwNCnN5c3RlbWN0bCBzdGFydCBjb25kb3INCnN5c3RlbWN0bCBlbmFibGUgY29uZG9yDQo=
 image_id = $IMAGE_ID
 aws_secret_access_key = $EC2_SECRET_KEY
 aws_access_key_id = $EC2_ACCESS_KEY
@@ -239,23 +239,23 @@ EOF
 systemctl start elastiq
 systemctl enable elastiq
 #
-mkdir /home/centos/jobs/
-mkdir /home/centos/jobs/log/
-mkdir /home/centos/jobs/output/
-mkdir /home/centos/jobs/error/
-cat<< EOF > /home/centos/jobs/test.jdl
+mkdir /home/fedora/jobs/
+mkdir /home/fedora/jobs/log/
+mkdir /home/fedora/jobs/output/
+mkdir /home/fedora/jobs/error/
+cat<< EOF > /home/fedora/jobs/test.jdl
 Universe = vanilla
-Executable = /home/centos/jobs/test.sh
-Log = /home/centos/jobs/log/test.log.\$(Cluster).\$(Process)
-Output = /home/centos/jobs/output/test.out.\$(Cluster).\$(Process)
-Error = /home/centos/jobs/error/test.err.\$(Cluster).\$(Process)
+Executable = /home/fedora/jobs/test.sh
+Log = /home/fedora/jobs/log/test.log.\$(Cluster).\$(Process)
+Output = /home/fedora/jobs/output/test.out.\$(Cluster).\$(Process)
+Error = /home/fedora/jobs/error/test.err.\$(Cluster).\$(Process)
 Queue 10
 EOF
-cat /tmp/test.sh > /home/centos/jobs/test.sh
-chown centos:root -R /home/centos/jobs/
-chmod u+x -R /home/centos/jobs/
+cat /tmp/test.sh > /home/fedora/jobs/test.sh
+chown fedora:root -R /home/fedora/jobs/
+chmod u+x -R /home/fedora/jobs/
 #
-cat<<EOF>/home/centos/README.txt
+cat<<EOF>/home/fedora/README.txt
 Root user can't submit condor jobs.
 You can submit jobs using centos user and you can test condor using the test.jdl file [ condor_submit jobs/test.jdl ].
 Good fun! :)
