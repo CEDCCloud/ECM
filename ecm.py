@@ -22,8 +22,7 @@ cern_images = [
 
 centos_images = [
            (1, "CentOS 7", "ami-00000013"),
-           (2, "CentOS 6", "ami-00000010"),
-           (3, "Other image. [WARNING] You have to know the EC2-id of image", "ami-")]
+           (2, "Other image. [WARNING] You have to know the EC2-id of image", "ami-")]
            
 if __name__ == "__main__":
 
