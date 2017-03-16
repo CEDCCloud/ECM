@@ -8,7 +8,7 @@ You only have to follow some simple step:
 $ source ec2rc.sh
 where ec2rc is the ec2rc file of the project where you want to instantiate your cluster.
 
-2. Edit the cluster.conf file
+2. Edit the ecm.conf file
 
 3. Launch the ecm program and follow the instructions
 $ python ecm.py 
