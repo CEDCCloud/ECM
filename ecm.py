@@ -5,7 +5,8 @@ from subprocess import call
 scripts = [(1, "Fedora",  "fedora",  "master_files/Fedora-master"),
            (2, "Ubuntu",  "ubuntu",  "master_files/Ubuntu-master"),
            (3, "uCernVM", "ucernvm", "master_files/uCernVM-master"),
-           (4, "CentOS",  "centos",  "master_files/CentOS7-master")]
+           (4, "CentOS7",  "centos7",  "master_files/CentOS7-master"),
+           (5, "CentOS6",  "centos6",  "master_files/CentOS6-master")]
            
 Fedora_images = [
            (1, "Fedora 23", "ami-00000027"),
@@ -22,6 +23,10 @@ cern_images = [
 
 centos_images = [
            (1, "CentOS 7", "ami-00000013"),
+           (2, "Other image. [WARNING] You have to know the EC2-id of image", "ami-")]
+           
+centos6_images = [
+           (1, "CentOS 6", "ami-00000010"),
            (2, "Other image. [WARNING] You have to know the EC2-id of image", "ami-")]
            
 if __name__ == "__main__":
@@ -141,6 +146,29 @@ if __name__ == "__main__":
                 image = input("\nImage => ")
                 try:
                     m, b, g = centos_images[int(image)-1]
+                    if int(image) == 3:
+                        print("\nInsert the EC2-id (something like ami-00000000)")
+                        if int(major_version) < 3:
+                            image_number = raw_input("ami-")
+                        else:
+                            image_number = input("ami-")
+                        if len(image_number) == 8:
+                            image_id = "%s%s" %(g, image_number)
+                        else:
+                            exit("Incorrect EC2-id.")
+                    elif int(image) < 1:
+                        exit("[ERROR] Wrong selection.")
+                    else:
+                        image_id = g
+                except IndexError:
+                    exit("[ERROR] Wrong selection.")
+            elif n == 5:
+                print("\nSelect the image for your %s based master and your %s based WNs:" %(d, d)) 
+                for m, b, g in centos6_images:
+                    print("%s: %s" % (m, b))
+                image = input("\nImage => ")
+                try:
+                    m, b, g = centos6_images[int(image)-1]
                     if int(image) == 3:
                         print("\nInsert the EC2-id (something like ami-00000000)")
                         if int(major_version) < 3:
