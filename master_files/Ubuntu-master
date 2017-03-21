@@ -174,8 +174,8 @@ EOF
 ##########
 # UBUNTU #
 ##########
-echo "deb http://10.64.34.11/repo/htcondor/ubuntu/previous/ trusty contrib" >> /etc/apt/sources.list
-wget -qO - http://10.64.34.11/repo/htcondor/ubuntu/HTCondor-Release.gpg.key | apt-key add -
+echo "deb http://90.147.77.142/repo/htcondor/ubuntu/previous/ trusty contrib" >> /etc/apt/sources.list
+wget -qO - http://90.147.77.142/repo/htcondor/ubuntu/HTCondor-Release.gpg.key | apt-key add -
 apt-get update
 apt-get -y install condor
 #
